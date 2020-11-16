@@ -1,5 +1,6 @@
 package com.example.controller.job;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Job;
+import com.example.service.common.PagingService;
 import com.example.service.job.EnService;
 
 /**
@@ -24,6 +26,9 @@ public class JobListController {
 	@Autowired
 	private EnService enService;
 	
+	@Autowired
+	private PagingService pagingService;
+
 	/**
 	 * 求人一覧画面へ.
 	 * 
@@ -45,63 +50,28 @@ public class JobListController {
 		if(Objects.isNull(page)) {
 			page = 1;
 		}
+		model.addAttribute("page",page);
 		
 		String codingLanguage = null;
-		switch (codingLanguageNumber){
-		  case 1:
-			  codingLanguage = "Java";
-			  break;
-		  case 2:
-			  codingLanguage = "Ruby";
-			  break;
-		  case 3:
-			  codingLanguage = "PHP";
-			  break;
-		  case 4:
-			  codingLanguage = "C++";
-			  break;
-		  case 5:
-			  codingLanguage = "C#";
-			  break;
-		  case 6:
-			  codingLanguage = "COBOL";
-			  break;
-		  case 7:
-			  codingLanguage = "Go";
-			  break;
-		  case 8:
-			  codingLanguage = "Kotlin";
-			  break;
-		  case 9:
-			  codingLanguage = "Perl";
-			  break;
-		  case 10:
-			  codingLanguage = "Python";
-			  break;
-		  case 11:
-			  codingLanguage = "R";
-			  break;
-		  case 12:
-			  codingLanguage = "Scala";
-			  break;
-		  case 13:
-			  codingLanguage = "Swift";
-			  break;
-		  case 14:
-			  codingLanguage = "TypeScript";
-			  break;
+		List<String> codingLanguageNameList = Arrays.asList("Java", "Ruby", "PHP", "C++", "C#", "COBOL", "Go", "Kotlin", "Perl", "Python", "R", "Scala", "Swift", "TypeScript");
+		for (int i = 0; i < codingLanguageNameList.size(); i++) {
+			if (codingLanguageNumber-1 == i) {
+				codingLanguage = codingLanguageNameList.get(i);
+				break;
+			}
 		}
-		model.addAttribute("codingLanguageName",codingLanguage);
 		model.addAttribute("codingLanguageNumber",codingLanguageNumber);
+		model.addAttribute("codingLanguageNameList",codingLanguageNameList);
 
+		List<String> siteNameList = Arrays.asList("エン転職", "キャリトレ", "Geekly", "Green", "type", "doda", "マイナビ転職", "リクナビNEXT");
 		switch (siteNumber){
 		  case 1:
 			  jobList = enService.searchJob(codingLanguage,page);
-			  model.addAttribute("siteName","エン転職");
+			  model.addAttribute("siteName",siteNameList.get(0));
 			  break;
 		  case 2:
 			  jobList = enService.searchJob(codingLanguage,page);
-			  model.addAttribute("siteName","キャリトレ");
+			  model.addAttribute("siteName",siteNameList.get(1));
 			  break;
 		  case 3:
 			  System.out.println("3");
@@ -123,7 +93,11 @@ public class JobListController {
 			    break;
 		}
 		model.addAttribute("siteNumber",siteNumber);
+		model.addAttribute("siteNameList",siteNameList);
 		
+		
+		Integer totalPage = pagingService.countTotalPage(codingLanguage,50);
+		model.addAttribute("totalPage",totalPage);
 	    model.addAttribute("jobList",jobList);
 		return "job/job_list";
 	}	

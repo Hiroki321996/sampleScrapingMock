@@ -28,21 +28,21 @@ public class EnService {
 			}
 	    	
 	    	Document documents = Jsoup.connect(siteUrl).get();
-
+	    	
 	        String siteName = "エン転職";
 	        Elements companyName = documents.select(".nameSet .companyName .company");
 	        Elements jobType = documents.select(".nameSet .jobName .jobNameText");
 	        
 	        String codingLanguages = "Java";
 	        Elements location = documents.select(".dataArea .dataList");
-	        String phoneNumber = "0000-111-2222";
+	        String phoneNumber = "";
 	        
 	        Elements businessDetails = documents.select(".dataArea .dataList");
 	        Elements url = documents.select(".buttonArea .toDesc");
 	        String firstUrl = "https://employment.en-japan.com"; 
 	        String latterUrl = "&aroute=0&caroute=0701"; 
 	    	
-	    	Elements published = documents.select(".listDate");	        
+	    	String published = "";	        
 	    	
 	        for (int i = 0; i < companyName.size(); i++) {
 	        	job = new Job();
@@ -62,7 +62,7 @@ public class EnService {
 				}else {
 					job.setUrl(firstUrl + url.get(i).attr("href") + latterUrl);
 				}
-	        	job.setPublished(published.get(i).text());
+	        	job.setPublished(published);
 	        	
 	        	jobList.add(job);
 	        }	        

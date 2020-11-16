@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-	crossorigin="anonymous">
-<title>求人一覧</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<title>求人一覧</title>
 </head>
 <body>
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
 	<span th:include="/common/fragment-part::frag_header_after_login"></span>
 	
 	<div class="main">
@@ -22,56 +22,27 @@
 					<div class="form-group col-md-6">
 						<label>求人サイト</label> 
  						<select name="siteNumber" class="form-control">
-							<option th:value="${siteNumber}" th:text="${siteName}"></option>
-							<option id="careertrek" value="1">エン転職</option>
-							<option id="careertrek" value="2">キャリトレ</option>
-							<option id="geekly"     value="3">Geekly</option>
-							<option id="green"      value="4">Green</option>
-							<option id="type"       value="5">type</option>
-							<option id="doda"       value="6">doda</option>
-							<option id="mynavi"     value="7">マイナビ転職</option>
-							<option id="rikunabi"   value="8">リクナビNEXT</option>
+							<option th:value="${siteNumber}" th:text="${siteNameList.get(siteNumber-1)}"></option>
+							<option th:if="${siteNumber != status.count}" th:each="siteName,status:${siteNameList}" th:value="${status.count}" th:text="${siteName}"></option>
 						</select>
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>言語</label> 
 						<select name="codingLanguageNumber" class="form-control">
-							<option th:value="${codingLanguageNumber}" th:text="${codingLanguageName}"></option>
-							<option id="java"       value="1">Java</option>
-							<option id="ruby"       value="2">Ruby</option>
-							<option id="php"        value="3">PHP</option>
-							<option id="c++"        value="4">C++</option>
-							<option id="c#"         value="5">C#</option>
-							<option id="cobol"      value="6">COBOL</option>
-							<option id="go"         value="7">Go</option>
-							<option id="kotlin"     value="8">Kotlin</option>
-							<option id="perl"       value="9">Perl</option>
-							<option id="python"     value="10">Python</option>
-							<option id="r"          value="11">R</option>
-							<option id="scala"      value="12">Scala</option>
-							<option id="swift"      value="13">Swift</option>
-							<option id="typeScript" value="14">TypeScript</option>
+							<option th:value="${codingLanguageNumber}" th:text="${codingLanguageNameList.get(codingLanguageNumber-1)}"></option>
+							<option th:if="${codingLanguageNumber != status.count}" th:each="codingLanguageName,status:${codingLanguageNameList}" th:value="${status.count}" th:text="${codingLanguageName}"></option>
 						</select>
 					</div>
 				</div>
 				
-					<button class="btn btn-primary" type="submit">検索</button>
-					<div class="btn btn-primary">CSV出力</div>
+				<button class="btn btn-primary" type="submit">検索</button>
+				<div class="btn btn-primary">CSV出力</div>
 					
 			</form>
 			
-			<nav aria-label="ページ送りの実例">
-				<ul class="pagination">
-					<!-- <li class="page-item"><a class="page-link" th:href="#">前へ</a></li> -->
-					<!-- <li class="page-item"><a class="page-link" th:href="#">1</a></li> -->
-					<!-- <li class="page-item"><a class="page-link" th:href="#">2</a></li> -->
-					<!-- <li class="page-item"><a class="page-link" th:href="#">3</a></li> -->
-					<li class="page-item"><a class="page-link" th:href="@{/job-list/to-job-list(page=2)}">次へ</a></li>
-					                      <!-- <a th:href="@{/searchItem(page=${status.count},name=${name},element=${element})}">1</a> -->
-				</ul>
-			</nav>
-
+			<span th:include="/common/fragment-part::frag_header_paging"></span>
+			
 			<div class="row">
 				<div class="mx-auto">
 				
@@ -80,7 +51,6 @@
 								<tbody>
 		
 									<tr class="bg-white text-center">
-										<th>No.</th>
 										<th>企業名</th>
 										<th>募集職種</th>
 										<th>所在地</th>
@@ -90,17 +60,41 @@
 									</tr>
 									
 									<tr th:each="job,status:${jobList}">
-										<td class="text-nowrap overflow-hidden" th:text="${status.count}+.">1</td>
 										<td class="text-nowrap overflow-hidden" style="cursor: pointer; position: relative;">
-											<a class="stretched-link" th:href="${job.url}" th:text="${job.companyName}" target="_blank" rel="noopener noreferrer">
+											<a class="stretched-link" th:href="${job.url}" target="_blank" rel="noopener noreferrer" th:text="${job.companyName}" data-toggle="tooltip" th:title="${job.companyName}" data-placement="bottom">
 												会社A
 											</a>
 										</td>
-										<td class="text-nowrap overflow-hidden"th:text="${job.jobType}">システム開発</td>
-										<td class="text-nowrap overflow-hidden" th:text="${job.location}">東京</td>
-										<td class="text-nowrap overflow-hidden" th:text="${job.phoneNumber}">000-1111-2222</td>
-										<td class="text-nowrap overflow-hidden" th:text="${job.businessDetails}">IoTサービス</td>
-										<td class="text-nowrap overflow-hidden">2020/10/01</td>
+										
+										<td class="text-nowrap overflow-hidden">
+											<span data-toggle="tooltip" th:title="${job.jobType}" data-placement="left" th:text="${job.jobType}" data-animation="true">
+												システム開発
+											</span>
+										</td>
+										
+										<td class="text-nowrap overflow-hidden">
+											<span data-toggle="tooltip" th:title="${job.location}" data-placement="left" th:text="${job.location}">
+												東京
+											</span>
+										</td>
+										
+										<td class="text-nowrap overflow-hidden">
+											<span data-toggle="tooltip" th:title="${job.phoneNumber}" data-placement="bottom" th:text="${job.phoneNumber}">
+												000-1111-2222
+											</span>
+										</td>
+										
+										<td class="text-nowrap overflow-hidden">
+											<span data-toggle="tooltip" th:title="${job.businessDetails}" data-placement="left" th:text="${job.businessDetails}">
+												IoTサービス
+											</span>
+										</td>
+										
+										<td class="text-nowrap overflow-hidden">
+											<span data-toggle="tooltip" th:title="${job.published}" data-placement="bottom" th:text="${job.published}">
+												2020/10/01
+											</span>
+										</td>
 									</tr>
 		
 								</tbody>
@@ -113,17 +107,16 @@
 		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"
-		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<script>
+      $(function() {
+        'use strict';
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+
 
 </body>
 </html>

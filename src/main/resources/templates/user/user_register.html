@@ -12,43 +12,46 @@
 	
 	<!--■ メイン部分 -->	
 	<div class="main">
-			<div class="container text-center">
+		<div class="container text-center">
 			
-				<h3 class="my-5">登録</h3>
+			<h3 class="my-5">登録</h3>
 				
-<div class="row">
-<div class="mx-auto">		
-<div class="card" style="width: 30rem;">
-<div class="card-block">
-				
-				<form class="py-4" th:action="@{/#/#}" method="post">
-				
-					<p><i class="fas fa-user fa-fw fa-2x"></i>名前</p>
-					<input class="mb-4" type="text" name="name">
-					
-					<p><i class="fas fa-envelope fa-fw fa-2x"></i>メールアドレス</p>
-					<input class="mb-4" type="text" name="email">
-					
-					<p><i class="fas fa-unlock-alt fa-fw fa-2x"></i>パスワード</p>
-					<input class="mb-4" type="password" name="password">
-					
-					<p><i class="fas fa-unlock fa-fw fa-2x"></i>確認用パスワード</p>
-					<input class="mb-4" type="password" name="passwordConfirmation"><br>
-						
-					<div>
-						<!-- <button class="btn mr-4 text-light" type="submit" style="background-color:#3366CC;">登録</button> -->
-						<a th:href="@{/user-login/to-login}" class="btn text-light mr-4" style="background-color:#3366CC;">登録</a>
-						<a th:href="@{/#/#}" class="btn text-light" style="background-color:#3366CC;">ログイン</a>
-					</div>
-					
-				</form>
-</div>
-</div>
-</div>
-</div>
-				
-				
+			<div class="row">
+				<div class="mx-auto">		
+				 
+	 				<form th:action="@{/#/#}" method="post" style="width: 20rem;" class="py-4 text-left">
+	
+						<div class="form-group">
+							<label>名前</label> 
+							<input name="name" type="text" class="form-control mb-4">
+						</div>
+							
+						<div class="form-group">
+							<label>メールアドレス</label> 
+							<input  name="email" type="text" class="form-control mb-4">
+						</div>
+							
+						<div class="form-group">
+							<label>パスワード</label> 
+							<input  name="password" type="password" class="form-control mb-4">
+						</div>
+							
+						<div class="form-group">
+							<label>確認用パスワード</label> 
+							<input  name="passwordConfirmation" type="password" class="form-control mb-4">
+						</div>
+							
+						<div class="button text-center">
+							<button type="submit" class="btn btn-primary text-light mr-4" style="background-color:#3366CC;">登録</button>
+							<a th:href="@{/user-login/to-login}" class="btn text-light" style="background-color:#3366CC;">ログイン</a>
+						</div>
+	
+					</form>
+ 
+				</div>
 			</div>
+				
+		</div>
 	</div>
 	
 	

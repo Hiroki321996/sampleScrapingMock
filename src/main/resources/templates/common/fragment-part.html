@@ -34,6 +34,33 @@
 	</div>  
 </span>
 
+<span th:fragment="frag_header_paging">
+	<nav aria-label="ページング">
+		<ul class="pagination">
+			<li class="page-item" th:if="${0 &lt; page-1 and page-1 &lt; totalPage+1}">
+				<a class="page-link" th:text="前へ" th:href="@{/job-list/to-job-list(page=${page-1}, siteNumber=${siteNumber}, codingLanguageNumber=${codingLanguageNumber})}">1</a>
+			</li>
+			<li class="page-item" th:if="${0 &lt; page-2 and page-2 &lt; totalPage+1}">
+				<a class="page-link" th:text=${page-2} th:href="@{/job-list/to-job-list(page=${page-2}, siteNumber=${siteNumber}, codingLanguageNumber=${codingLanguageNumber})}">1</a>
+			</li>
+			<li class="page-item" th:if="${0 &lt; page-1 and page-1 &lt; totalPage+1}">
+				<a class="page-link" th:text=${page-1} th:href="@{/job-list/to-job-list(page=${page-1}, siteNumber=${siteNumber}, codingLanguageNumber=${codingLanguageNumber})}">1</a>
+			</li>
+			<li class="page-item active" th:if="${0 &lt; page and page &lt; totalPage+1}">
+				<a class="page-link" th:text=${page} th:href="@{/job-list/to-job-list(page=${page}, siteNumber=${siteNumber}, codingLanguageNumber=${codingLanguageNumber})}">1</a>
+			</li>
+			<li class="page-item" th:if="${0 &lt; page+1 and page+1 &lt; totalPage+1}">
+				<a class="page-link" th:text=${page+1} th:href="@{/job-list/to-job-list(page=${page+1}, siteNumber=${siteNumber}, codingLanguageNumber=${codingLanguageNumber})}">次へ</a>
+			</li>
+			<li class="page-item" th:if="${0 &lt; page+2 and page+2 &lt; totalPage+1}">
+				<a class="page-link" th:text=${page+2} th:href="@{/job-list/to-job-list(page=${page+2}, siteNumber=${siteNumber}, codingLanguageNumber=${codingLanguageNumber})}">次へ</a>
+			</li>
+			<li class="page-item" th:if="${0 &lt; page+1 and page+1 &lt; totalPage+1}">
+				<a class="page-link" th:text="次へ" th:href="@{/job-list/to-job-list(page=${page+1}, siteNumber=${siteNumber}, codingLanguageNumber=${codingLanguageNumber})}">次へ</a>
+			</li>
+		</ul>
+	</nav>
+</span>
 
 
 	
