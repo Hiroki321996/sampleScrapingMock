@@ -2,26 +2,27 @@ package com.example.domain;
 
 public class Job {
 	
+	/** 求人ID */
 	private Integer id;
-	
+	/** サイト名 */
 	private String siteName;
-	
+	/** 企業名 */
 	private String companyName;
-	
+	/** 募集職種 */
 	private String jobType;
-	
+	/** 言語 */
 	private String codingLanguages;
-	
+	/** 所在地 */
 	private String location;
-	
+	/** 電話番号 */
 	private String phoneNumber;
-	
+	/** 事業内容 */
 	private String businessDetails;
-	
+	/** 求人URL */
 	private String url;
-	
+	/** 掲載日 */
 	private String published;
-
+	
 	public Integer getId() {
 		return id;
 	}

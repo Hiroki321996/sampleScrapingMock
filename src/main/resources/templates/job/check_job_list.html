@@ -51,6 +51,7 @@
 								<tbody>
 		
 									<tr class="bg-white text-center">
+										<th>No.</th>
 										<th>企業名</th>
 										<th>募集職種</th>
 										<th>勤務地</th>
@@ -61,6 +62,8 @@
 									
 									<tr th:each="job,status:${jobList}">
 									
+										<td class="text-nowrap overflow-hidden" style="cursor: pointer; position: relative;" th:text="${status.count}"></td>
+										
 										<td class="text-nowrap overflow-hidden" style="cursor: pointer; position: relative;">
 											<a class="stretched-link" th:href="${job.url}" target="_blank" rel="noopener noreferrer" th:text="${job.companyName}" data-toggle="tooltip" th:title="${job.companyName}" data-placement="bottom">
 												会社A

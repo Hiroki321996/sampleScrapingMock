@@ -1,4 +1,4 @@
-package com.example.controller.job;
+package com.example.controller.check;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Job;
-import com.example.service.common.PagingService;
-import com.example.service.job.EnService;
+import com.example.service.check.CheckEnService;
+import com.example.service.check.CheckPagingService;
 
 /**
  * 求人一覧のコントローラー.
@@ -20,21 +20,21 @@ import com.example.service.job.EnService;
  *
  */
 @Controller
-@RequestMapping("/job-list")
-public class JobListController {
+@RequestMapping("/check-job-list")
+public class CheckJobListController {
 
 	@Autowired
-	private EnService enService;
+	private CheckEnService enService;
 	
 	@Autowired
-	private PagingService pagingService;
+	private CheckPagingService pagingService;
 
 	/**
 	 * 求人一覧画面へ.
 	 * 
 	 * @return 求人一覧
 	 */
-	@RequestMapping("/to-job-list")
+	@RequestMapping("/to-check-job-list")
 	public String toJobList(Integer siteNumber,Integer codingLanguageNumber, Integer page, Model model) {
 		
 		List<Job> jobList = null;
@@ -66,11 +66,11 @@ public class JobListController {
 		List<String> siteNameList = Arrays.asList("エン転職", "キャリトレ", "Geekly", "Green", "type", "doda", "マイナビ転職", "リクナビNEXT");
 		switch (siteNumber){
 		  case 1:
-			  jobList = enService.searchJob(codingLanguage,page);
+			  jobList = enService.searchJobB(codingLanguage,page);
 			  model.addAttribute("siteName",siteNameList.get(0));
 			  break;
 		  case 2:
-			  jobList = enService.searchJob(codingLanguage,page);
+			  jobList = enService.searchJobB(codingLanguage,page);
 			  model.addAttribute("siteName",siteNameList.get(1));
 			  break;
 		  case 3:
@@ -99,6 +99,6 @@ public class JobListController {
 		Integer totalPage = pagingService.countTotalPage(codingLanguage,50);
 		model.addAttribute("totalPage",totalPage);
 	    model.addAttribute("jobList",jobList);
-		return "job/job_list";
+		return "job/check_job_list";
 	}	
 }

@@ -1,4 +1,4 @@
-package com.example.service.common;
+package com.example.service.check;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class PagingService {
+public class CheckPagingService {
 	
 	public Integer countTotalPage(String codingLanguage,Integer displayCount) {
 		
