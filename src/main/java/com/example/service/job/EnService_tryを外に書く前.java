@@ -15,7 +15,7 @@ import com.example.domain.Job;
 
 @Service
 @Transactional
-public class EnService {
+public class EnService_tryを外に書く前 {
 
 	public List<Job> searchJob() {
 
@@ -27,15 +27,15 @@ public class EnService {
 
 		String codingLanguage = null;
 //		List<String> codingLanguageNameList = Arrays.asList("Java", "Ruby", "PHP", "C++", "C#", "COBOL", "Go", "Kotlin", "Perl", "Python", "R", "Scala", "Swift", "TypeScript");
-		List<String> codingLanguageNameList = Arrays.asList("Java");
-		// ■ 検索言語の設定(for1個目)
-		try {
-			for (int k = 0; k < codingLanguageNameList.size(); k++) {
-				codingLanguage = codingLanguageNameList.get(k);
+		List<String> codingLanguageNameList = Arrays.asList("Java", "Ruby");
+		//■ 検索言語の設定(for1個目)
+		for (int k = 0; k < codingLanguageNameList.size(); k++) {
+			codingLanguage = codingLanguageNameList.get(k);
 
+			try {
 				// ■ for2個目
 				for (int j = 1; j <= count; j++) {
-
+					
 //■ 検索URLの設定
 					String siteUrl = "https://employment.en-japan.com/search/search_list/?occupation_back=400000&caroute=0701&occupation=401000_401500_402000_402500_403000_403500_404000_404500_405000_405500_409000&areaid=2&keywordtext="
 							+ codingLanguage;
@@ -48,13 +48,11 @@ public class EnService {
 //■ jsoupの実行
 					Document documents = Jsoup.connect(siteUrl).get();
 
-					Elements noJobMessage = documents
-							.select(".jobSearchListBase .jobSearchListLeftArea .zeroAnnounce .content .copy .none");
-					// ■ 「条件にあてはまる求人情報がありませんでした。」が表示されなければ抽出
+					Elements noJobMessage = documents.select(".jobSearchListBase .jobSearchListLeftArea .zeroAnnounce .content .copy .none");
+					//■ 「条件にあてはまる求人情報がありませんでした。」が表示されなければ抽出
 					if (noJobMessage.isEmpty()) {
 //■ ページ数の取得
-						Elements elementTotalJobCount = documents
-								.select(".jobSearchListBase .jobSearchListNumCondition .num em");
+						Elements elementTotalJobCount = documents.select(".jobSearchListBase .jobSearchListNumCondition .num em");
 
 						totalJobCount = Integer.parseInt(elementTotalJobCount.first().text());
 
@@ -105,13 +103,17 @@ public class EnService {
 //■ リストにJobオブジェクトを格納
 							jobList.add(job);
 
-						}// ■ for3個目の終わり
-					}// ■ ifの終わり
-				}// ■ for2個目の終わり
-				count = 1;
-			}// ■ for1個目の終わり
-		} catch (IOException e) {
-			e.printStackTrace();
+						// ■ for3個目の終わり
+						}
+					// ■ ifの終わり
+					}
+				// ■ for2個目の終わり
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			count = 1;
+		// ■ for1個目の終わり
 		}
 
 		return jobList;
