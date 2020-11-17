@@ -19,6 +19,22 @@ public class EnService {
 
 	public List<Job> searchJob() {
 
+		String siteUrl;
+		Document documents;
+		Elements noJobMessage;
+		Elements elementTotalJobCount;
+		String siteName;
+		Elements companyName;
+		Elements jobType;
+		String codingLanguages;
+		Elements location;
+		String phoneNumber;
+		Elements businessDetails;
+		Elements url;
+		String firstUrl;
+		String latterUrl;
+		String published;
+		
 		Integer count = 1;
 		Integer totalJobCount = 0;
 		Integer displayCount = 50;
@@ -28,6 +44,7 @@ public class EnService {
 		String codingLanguage = null;
 //		List<String> codingLanguageNameList = Arrays.asList("Java", "Ruby", "PHP", "C++", "C#", "COBOL", "Go", "Kotlin", "Perl", "Python", "R", "Scala", "Swift", "TypeScript");
 		List<String> codingLanguageNameList = Arrays.asList("Java");
+		
 		// ■ 検索言語の設定(for1個目)
 		try {
 			for (int k = 0; k < codingLanguageNameList.size(); k++) {
@@ -37,7 +54,7 @@ public class EnService {
 				for (int j = 1; j <= count; j++) {
 
 //■ 検索URLの設定
-					String siteUrl = "https://employment.en-japan.com/search/search_list/?occupation_back=400000&caroute=0701&occupation=401000_401500_402000_402500_403000_403500_404000_404500_405000_405500_409000&areaid=2&keywordtext="
+					siteUrl = "https://employment.en-japan.com/search/search_list/?occupation_back=400000&caroute=0701&occupation=401000_401500_402000_402500_403000_403500_404000_404500_405000_405500_409000&areaid=2&keywordtext="
 							+ codingLanguage;
 					if (count >= 2) {
 						siteUrl = "https://employment.en-japan.com/search/search_list/?keywordtext=" + codingLanguage
@@ -46,15 +63,13 @@ public class EnService {
 					}
 
 //■ jsoupの実行
-					Document documents = Jsoup.connect(siteUrl).get();
+					documents = Jsoup.connect(siteUrl).get();
 
-					Elements noJobMessage = documents
-							.select(".jobSearchListBase .jobSearchListLeftArea .zeroAnnounce .content .copy .none");
+					noJobMessage = documents.select(".jobSearchListBase .jobSearchListLeftArea .zeroAnnounce .content .copy .none");
 					// ■ 「条件にあてはまる求人情報がありませんでした。」が表示されなければ抽出
 					if (noJobMessage.isEmpty()) {
 //■ ページ数の取得
-						Elements elementTotalJobCount = documents
-								.select(".jobSearchListBase .jobSearchListNumCondition .num em");
+						elementTotalJobCount = documents.select(".jobSearchListBase .jobSearchListNumCondition .num em");
 
 						totalJobCount = Integer.parseInt(elementTotalJobCount.first().text());
 
@@ -65,20 +80,20 @@ public class EnService {
 						count = (int) totalPage;
 
 //■ 抽出結果を要素ごとに分ける			
-						String siteName = "エン転職";
-						Elements companyName = documents.select(".nameSet .companyName .company");
-						Elements jobType = documents.select(".nameSet .jobName .jobNameText");
+						siteName = "エン転職";
+						companyName = documents.select(".nameSet .companyName .company");
+						jobType = documents.select(".nameSet .jobName .jobNameText");
 
-						String codingLanguages = "Java";
-						Elements location = documents.select(".dataArea .dataList");
-						String phoneNumber = "";
+						codingLanguages = codingLanguage;
+						location = documents.select(".dataArea .dataList");
+						phoneNumber = "";
 
-						Elements businessDetails = documents.select(".dataArea .dataList");
-						Elements url = documents.select(".buttonArea .toDesc");
-						String firstUrl = "https://employment.en-japan.com";
-						String latterUrl = "&aroute=0&caroute=0701";
+						businessDetails = documents.select(".dataArea .dataList");
+						url = documents.select(".buttonArea .toDesc");
+						firstUrl = "https://employment.en-japan.com";
+						latterUrl = "&aroute=0&caroute=0701";
 
-						String published = "";
+						published = "";
 
 //■ Jobオブジェクトに格納(for3個目)
 						for (int i = 0; i < companyName.size(); i++) {
