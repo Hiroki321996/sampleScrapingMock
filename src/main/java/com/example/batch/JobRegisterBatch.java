@@ -1,26 +1,25 @@
-package com.example.controller.job;
+package com.example.batch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.example.domain.Job;
 import com.example.service.job.EnService;
 import com.example.service.job.JobRegisterService;
 
 /**
- * 求人登録のコントローラー.
+ * 求人登録のバッチ.
  * 
  * @author oyamadakenji
  *
  */
-@Controller
-@RequestMapping("/job-register")
-public class JobRegisterController {
+@Component
+public class JobRegisterBatch {
 
 	@Autowired
 	private JobRegisterService jobRegisterService;
@@ -28,24 +27,11 @@ public class JobRegisterController {
 	private EnService enService;
 
 	/**
-	 * 求人登録画面へ.
-	 * 
-	 * @return 求人登録
-	 */
-	@RequestMapping("/to-job-register")
-	public String toJobRegister() {
-
-		return "job/job_register";
-	}
-
-	/**
 	 * 求人登録.
 	 * 
-	 * @param form 新規の求人
-	 * @return
 	 */
-	@RequestMapping("/job-register")
-	public String jobRegister() {
+	@Scheduled(cron = "0 0 0 * * 1", zone = "Asia/Tokyo")
+	public void jobRegister() {
 		
 		List<Job> enJobList = enService.searchJob();
 
@@ -55,7 +41,6 @@ public class JobRegisterController {
 			allJobList.addAll(siteList);
 		}
 		jobRegisterService.insert(allJobList);
-
-		return "redirect:/job-register/to-job-register";
+		System.out.println("できた");
 	}
 }
