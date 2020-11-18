@@ -42,8 +42,7 @@ public class EnService {
 		List<Job> jobList = new ArrayList<>();
 
 		String codingLanguage = null;
-//		List<String> codingLanguageNameList = Arrays.asList("Java", "Ruby", "PHP", "C++", "C#", "COBOL", "Go", "Kotlin", "Perl", "Python", "R", "Scala", "Swift", "TypeScript");
-		List<String> codingLanguageNameList = Arrays.asList("Java");
+		List<String> codingLanguageNameList = Arrays.asList("Java", "Ruby", "PHP", "C++", "C#", "COBOL", "Go", "Kotlin", "Perl", "Python", "R", "Scala", "Swift", "TypeScript");
 		
 		// ■ 検索言語の設定(for1個目)
 		try {
